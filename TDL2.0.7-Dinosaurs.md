@@ -157,7 +157,202 @@ DS: I was trying to rewrite a function for a Goldberg calculation. Now, I don't 
 what that was. I was just trying to take the code that was written in Fortran and
 translate word for word into VB.NET. That in itself is not that hard. You can take and
 copy-and-paste a piece of Fortran into Visual Studio and change the weird syntax for the
-.GT for greater than into an arrow you're good to go. What the problem was, was the
-external library functions.
+.GT for greater than into an arrow and you're good to go. What the problem was, was the
+external library functions that I reference. There are functions that just don't exist in
+libraries for VB.NET, or they exist and they are not freely available libraries. There's a
+library called IMSL that we use pretty extensively in Fortran. It used kind of shipped by
+default with Fortran compilers, like the HP Fortran compiler or the Intel compiler has a
+single user license for this library. This think cost like $3,000. You think of that and
+you compare a single user license for DevExpress or SyncFusion and compare that to this
+one tiny numerical library for $3,000, it seems absolutely ridiculous to pay those
+licensing costs. On top of that, we got things like the Mathematical libraries aren't
+licensed per developer, they're licensed per processor that the code is executing on. They
+used a method to figure that if have enough money to buy a lot of processors, you have a
+lot of money to buy their software. After struggling with this crap for about three to
+four weeks I finally got it to the point where the code would compile and got checked into
+TFS and was into a version control system. At that point we designated this one machine
+that was in the office that sits under my desk right now as the machine that would compile
+our release code on. If anything happened to that machine, we're SOL. We take daily
+backups of a snapshot, but that is the one machine that can compile our code properly. It
+would probably take two to get it even running again.
 
-(11:46)
+SH: Is this because this is a niche? Is it because, you know how you hear about people
+selling really old comic books for $3,000 and you say "well, who would ever spend that
+much money on such an obscure old thing?" but then you figure, there's a niche - it's a
+niche, or are these the real programmers? All these .NET guys and all this Microsoft and
+Java and all this $99 grid view type stuff, are we just playing at business, but all the
+real work is happening in Fortran and underneath?
+
+DS: I think that part of the issue is Fortran is not meant for programmers. What we call
+programmers will write ASP.NET applications, or WinForms or Linux, or that kind of stuff.
+Fortran is meant to express numerical functions and formulas. It stands for formula
+translation. We recently hired a guy about a month ago, and he came in, he's about 28 or
+29 years old, and he came in writing Fortran. He's been cranking our new Fortran code for
+the past two or three weeks now. He's not a trained software developer, he's a climate
+scientist. He's writing some software to basically try and predict hurricanes when They
+make landfall into the eastern United States. Now, I'm not one to be able to go in and
+tell him, "Look, don't program in this language because it's dead" because that's what
+he's been using and that's what works for him. His specialty as a client scientist far
+outweighs the pain of us trying to force him to write in a language he's not familiar
+with. When you deal with finance and research, you're basically going to be dealing with
+Fortran. Those specialists who aren't programmers are going to be working in whatever they
+are most comfortable with. As programmers we're kind of in a weird position where we have
+to kind of bow to the whim of the specialist in that area, and still make it work, just
+because their research is more valuable than the code that we produce.
+
+SH: Huh. Do you think this language will live forever?
+
+DS: It's definitely got the best track record for staying alive. I think it will. The fact
+that we have nuclear reactors running Fortran. We have new Fortran developers every day,
+just not in the CS perspective. It's going to be around for quite a long time, and the 
+functions they've built into Fortran 2000, I'm not sure if there is a Fortran 2010, but it
+would make sense that there would be, actually make it a decent language. They got rid of
+all the terrible things in Fortran 66 and Fortran 77 to make it respectable. There's no
+reason it shouldn't be moving forward. We just kind of have this stigma as developers to
+basically ignore this language we read about in the old archives or usernet usergroups.
+
+SH: Do you think that C# could live this long?
+
+DS: I do not know. I would hope so, but one of the things that makes Fortran incredibly
+long lived is it's built on research institutions. It's built by the same people who gave
+us the internet. C# is controlled more-or-less by Microsoft. Java is controlled more-or-
+less by Sun, and then eventually by Oracle. Whereas Fortran has basically for the past 30
+to 40 years been controlled by a group of academics that are all working to make the
+language better. Even though they have an incredibly long revision time, roughly ten years
+between versions, they always end up making forward progress. I think the fact that mostly
+it's rooted in academia rather than in a corporation just makes outlive everything.
+
+SH: So Fortran is 50? More than 50 - and you are 26. So you're using a language that is
+twice your age. Do you think Fortran is like the Latin of programming, or is it like the
+English?
+
+DS: I would say it's the English. I'm going back to where you initially learn English and
+sentence structure, and you learn how to diagram sentences. They got the nouns, and the
+adverbs, and figure out the adjectives. One of the incredible things about Fortran is it
+makes these very basic concepts to programmers very simple to use. We have for loops and
+do loops and those are very accessible within Fortran. Variables are very accessible in
+Fortran, and in some cases they are much easier because you don't have to deal with all of
+the other things like multithreading, reference pointers, or any of that stuff because
+Fortran to me seems like a predecessor to Visual Basic, in a way. It took a lot of the
+hard crummy things about programming in an era where machines are being programmed by
+punchcard and assembly only, and makes the accessible to someone who just needs to make
+some numbers compute. I would say it's one of the more basic programming languages, and it
+would be a very good thing to give to a kid. It wouldn't be on a level of Logo, or any of
+those other programming languages specifically designed for children, but it's a very
+easy language to grasp in concepts. I was trying to convert some Fortran code to Visual
+Basic, and I had worked for about two or three days converting roughly 3,000 lines of
+Fortran to VB, and I had gotten the code to match all of the way out to the 8th decimal
+place. I was very happy with it, and it ran decently the same. I took about a 20%
+performance hit. Then I realized when I hooked this couple of library functions to our
+main program that all of our numbers were completely off. We ended up predicting a loss of
+a couple of extra billion dollars, which definitely put us in the red. I was trying to
+track this down because I was confident, young and hardheaded, that the VB would end up
+being better in the long run. It turns out that extra 9th decimal place that I hadn't
+quite gotten to match yet was causing the issue. Some of the functions we used for
+insurance loss prediction were that sensitive. That was the exact moment that I realized I
+need to go home early, have a drink, come in the next day and start writing everything
+that needs to be written in Fortran in Fortran instead of fighting the system. There's
+just too much there for any one person to try and go through and rewrite it all. That's
+when I stopped fighting Fortran and started going along with the current.
+
+RC: So Scott, you know what Edsger Dijkstra says about Fortran.
+
+SH: I know he's not a fan.
+
+RC: I have a quote from him that I actually put in a blog post recently, he called Fortran
+"The infantile disorder. Now 20 years old, it is hopeless inadequate for whatever computer
+application you have in mind today. It's too clumsy, too risky, and too expensive to use."
+I don't think he's a fan.
+
+SH: When did he say this? Because what I am hearing is Fortran is a living language,
+there's a lot of powerful stuff in it, multithreading, multiprocessor, x64. People are
+doing work in Fortran, Dijkstra or not.
+
+RC: True. That was a while ago. He also doesn't like COBOL, he said "The use of COBOL
+cripples the mind. Teaching it should therefore be regarded as a criminal offense."
+
+SH: I think we can all agree on that one.
+
+RC: I think so too.
+
+SH: I was impressed that David learned that not every problem is solvable in .NET. I was
+most impressed when he stopped writing something in VB.NET and started writing something
+in Fortran. I think that is the first act of This Developer's Life this week is trying to
+tell us is that sometimes we can learn from the past, specifically dinosaurs that we may
+have written off.
+
+RC: And that VB.NET will cause you to learn Fortran, in relief.
+
+SH: Clearly, that is exactly what I wanted you to take away from this segment.
+
+RC: So, serious question though: so what? Are we telling people go learn Fortran? Are we
+saying that Fortran .NET is coming? Is it going to be the new web frameworks built on
+Fortran? What's the deal?
+
+SH: No, I think what I took from this segment is that there is something to be learned
+from the past, and to write off the past is to miss out on some opportunities to do good
+work for the future.
+
+RC: Do we have a Fortran geek trading card somewhere?
+
+SH: I'm actually looking forward to getting David Sokol's rookie card, and trading that up
+to, maybe I'll get a Rob Conery.
+
+SH: Our next segment is Sean Bamforth who is talking about Dataflex, which is not a
+language we should learn anything from. It's an old, old programming system that he has
+given 15 years of his life to.
+
+Sean Bamforth: So my name is Sean Bamforth, I'm a Dataflex programmer. Dataflex is a
+programming language that's been going since 1980, and to be honest it feels like I've
+been programming it since 1980. [laughs] That's my introduction.
+
+SH: That's a beautiful introduction. It was magical. Were you born before 1980, I hope?
+
+SB: I was, yes, actually. I haven't actually been programming it since 1980, I've been
+programming it since probably 1990-something, 1995 probably.
+
+SH: You know how we look down on programmers that program in VB?
+
+SB: Yeah.
+
+SH: Is it because it's VB, and I'm talking about VB6, the VB.NET people
+don't need to send me a letter, or is it because it's old?
+
+SB: It is because it's VB6. When VB6 came out, we hated VB6. I don't know about from the
+people sides, Application Programmer sides, why they hated VB6, but I hated it because
+database stuff was just impossible, and I was working with databases. VB6 was out, now
+my date times might be a bit wrong here, but VB6 was out, and I think Delphi came out
+after it, it was around about the same time. We loved Delphi, and it's database was
+rubbish as well. Yeah, I don't know. It's always been hated, and maybe it's just because
+it's Microsoft. The language was fine, it was absolutely fine. In a lot of ways, you can
+program in Dataflex you can program in VB, there's a lot of similarities there.
+
+SB: So Dataflex is a, well we can talk about new Dataflex or old Dataflex, I'll talk about
+new Dataflex. New Dataflex is a compiled to pcode, as we used to call it, managed code
+you'd call it now, compiled to pcode, VB-like I suppose. This is really hard, really hard.
+It's a simple language, it doesn't do like your C+ things, you know where in C you say,
+you're assigning a variable and you say "a equals 27"? You don't do that. You say "27 to
+a". So in many ways a little bit like COBOL 2.
+
+SH: Is it all caps? Is it a language that feels like it's shouting at me?
+
+SB: It isn't all caps. It's just a language that likes to do things in its own way. I'll
+give you another example, say you've a form, and you pop a button on it, and you want to
+put some code in the button click event. Now in pretty much every language out there, that
+on click stuff it goes in the form somewhere. So it's like like an event in the form, and
+you wire it into button. Dataflex is completely different, you have the button, the on
+click event is a method inside the button object. The button is defined as a code object,
+and the events are defined inside that object. It's like maybe it's a good way of doing
+things, but it's different from every single thing in the world. You might be able to tell
+me otherwise. You might say "That's exactly how so-and-so works." I don't know, but it
+strikes me as being different. It's got that COBOL syntax move something-to-something, and
+weird objects.
+
+SH: Somebody told me once that Finnish, the Finnish language - the language of Finland, is
+the one language on the planet that like no other language and from a linguistic
+perspective, it is as if they had been dropped through wormhole from another planet, and
+it is their own thing. It's maybe a little like Japanese, but it's effectively like
+nothing. Is this thing, Dataflex, is it a parallel universe from another world?
+
+SB: It's not a parallel universe. I wouldn't say it was Finnish, I would say it's like, if
+we were speaking English, German. It sounds the same.
